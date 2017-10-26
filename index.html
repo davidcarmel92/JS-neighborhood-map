@@ -1,0 +1,41 @@
+<html !DOCTYPE>
+<head>
+    <title>Udacity Map project</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+  <nav id="sidebar">
+      <!--Sidebar Search -->
+      <form>
+        <input class="form-control" placeholder="Search..." data-bind="value: query, valueUpdate: 'keyup', searchResults" autocomplete="off">
+      </form>
+      <!-- Sidebar headings -->
+      <div class="sidebar-header">
+        <h3>Tallest Buildings in New York City</h3>
+      </div>
+
+      <!-- Links for Sidevar -->
+      <ul data-bind="foreach: searchResults" class="list-unstyled components">
+        <li class="active"><a data-bind="text: name, click: $parent.clickedItem"></a></li>
+      </ul>
+  </nav>
+
+
+  <!--Map div for map from google maps -->
+  <div id="map">
+
+  </div>
+
+
+
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type='text/javascript' src='js/knockout-3.4.2.js'></script>
+<script src="js/app.js"></script>
+<script async defer
+ src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBayRQpC0Wrmjw48LY7o7ZwAxNm4FdzR-I&callback=initMap">
+</script>
+</body>
+</html>
