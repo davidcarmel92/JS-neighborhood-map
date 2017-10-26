@@ -1,8 +1,7 @@
-
 // Initialize map variable and store icon colors from google in variables.
 let map;
-const defaultIcon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-const highlightedIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+const defaultIcon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+const highlightedIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
 
 // Data for buildings.
 
@@ -93,7 +92,7 @@ var viewModel = function() {
   // This function filters the search results and hids markers for
   // buildings not in the search results.
   this.searchResults = ko.computed(function() {
-    var filtered, searchedName;
+    var filtered;
     var query = self.query();
     filtered = buildings.filter(function(i) {
       return i.name.toLowerCase().indexOf(query) >= 0;
@@ -128,11 +127,11 @@ var viewModel = function() {
         setTimeout(function(){
           index.marker.setIcon(defaultIcon);
           index.marker.setAnimation(null);
-        }, 1400)
+        }, 1400);
       }
     });
-  }
-}
+  };
+};
 // Markers object
 var Markers = function(data) {
   /*
@@ -216,7 +215,7 @@ var Markers = function(data) {
   });
   marker.addListener('mouseout', function(){
     this.setIcon(defaultIcon);
-  })
+  });
 
   // Makes popup info window with content from fetch request.
   populateInfoWindow = function(marker, htmlContent) {
@@ -230,9 +229,9 @@ var Markers = function(data) {
         infowindow.setMarker(null);
       });
     }
-  }
+  };
 
-}
+};
 
 // Initilizes map.
 var initMap = function() {
@@ -242,4 +241,4 @@ var initMap = function() {
   });
   //Applies Knockout bindings.
   ko.applyBindings(new viewModel());
-}
+};
