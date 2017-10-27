@@ -1,12 +1,15 @@
-<html !DOCTYPE>
-<head>
-    <title>Udacity Map project</title>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Neighborhood Map</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/main.css">
-</head>
-<body>
+  </head>
+  <body>
 
-  <nav id="sidebar">
+    <nav id="sidebar">
       <!--Sidebar Search -->
       <form>
         <input class="form-control" placeholder="Search..." data-bind="value: query, valueUpdate: 'keyup', searchResults" autocomplete="off">
@@ -20,22 +23,23 @@
       <ul data-bind="foreach: searchResults" class="list-unstyled components">
         <li class="active"><a data-bind="text: name, click: $parent.clickedItem"></a></li>
       </ul>
-  </nav>
+    </nav>
 
 
-  <!--Map div for map from google maps -->
-  <div id="map">
+    <!--Map div for map from google maps -->
+    <div id="map">
 
-  </div>
+    </div>
 
 
 
-<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type='text/javascript' src='js/knockout-3.4.2.js'></script>
-<script src="js/app.js"></script>
-<script async defer
- src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBayRQpC0Wrmjw48LY7o7ZwAxNm4FdzR-I&callback=initMap">
-</script>
-</body>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/knockout-3.4.2.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBayRQpC0Wrmjw48LY7o7ZwAxNm4FdzR-I&callback=initMap" onerror="googleError()">
+    </script>
+  </body>
 </html>
