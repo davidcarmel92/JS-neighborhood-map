@@ -83,3 +83,23 @@ css for pictures
   width: 300px;
   height: 300px;
 }
+
+@media screen and (max-width: 450px){
+
+  #map {
+    width: 70%;
+  }
+
+  #sidebar {
+    max-width: 30%;
+  }
+
+  #sidebar .sidebar-header h3{
+    font-size: 1.3em;
+  }
+
+  .picture img{
+    width: 200px;
+    height: 200px;
+  }
+}
