@@ -3,74 +3,10 @@ let map;
 const defaultIcon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
 const highlightedIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
 
-// Data for buildings.
-
-var buildings = [
-  {
-    name: 'One World Trade Center',
-    location: {lat: 40.7127, lng: -74.0134},
-  },
-  {
-    name: '432 Park Avenue',
-    location: {lat: 40.7616, lng: -73.9718}
-  },
-  {
-    name: 'Empire State Building',
-    location: {lat: 40.7484, lng: -73.9857}
-  },
-  {
-    name: 'Bank of America Tower (Manhattan)',
-    location: {lat: 40.7556, lng: -73.9849}
-  },
-  {
-    name: '3 World Trade Center',
-    location: {lat: 40.710923, lng:  -74.011608}
-  },
-  {
-    name: 'Chrysler Building',
-    location: {lat: 40.7516, lng: -73.9755}
-  },
-  {
-    name: '53W53',
-    location: {lat: 40.7619, lng: -73.9782}
-  },
-  {
-    name: 'The New York Times Building',
-    location: {lat: 40.7562, lng: -73.9904}
-  },
-  {
-    name: 'One57',
-    location: {lat: 40.7652, lng: -73.9792}
-  },
-  {
-    name: '4 World Trade Center',
-    location: {lat: 40.7103, lng: -74.0123}
-  },
-  {
-    name: '70 Pine Street',
-    location: {lat: 40.7065, lng: -74.0078}
-  },
-  {
-    name: 'Four Seasons Hotel New York Downtown',
-    location: {lat: 40.7131, lng: -74.0090}
-  },
-  {
-    name: '40 Wall Street',
-    location: {lat: 40.7070, lng: -74.0097}
-  },
-  {
-    name: 'Citigroup Center',
-    location: {lat: 40.7583, lng: -73.9702}
-  },
-  {
-    name: '10 Hudson Yards',
-    location: {lat: 40.7525, lng: -74.0011}
-  }
-];
 
 //ViewModel function
 
-var viewModel = function() {
+var ViewModel = function() {
   /*
   View model function. This function interacts with the data and the view.
   */
@@ -118,10 +54,12 @@ var viewModel = function() {
   });
 
   // When building clicked on sidebar, corresponsing marker bounces
-  // and changes color for 1.4 seconds.
+  // and its InfoWindow is opened.
   this.clickedItem = function(listItem) {
     self.markerList.forEach(function(index){
       if(index.title === listItem.name){
+        map.setCenter(index.marker.getPosition());
+        index.populateInfoWindow(index.marker, index.html);
         index.marker.setIcon(highlightedIcon);
         index.marker.setAnimation(google.maps.Animation.BOUNCE);
         setTimeout(function(){
@@ -156,7 +94,9 @@ var Markers = function(data) {
 
   this.marker = marker;
 
-  let html = ``;
+  let html = '';
+
+  this.html = html;
 
   //url for wikipedia api with this.title as search term.
   const url =`http://en.wikipedia.org/w/api.php?action=query&origin=*&prop=pageimages&format=json&piprop=original&titles=${this.title}`;
@@ -177,13 +117,13 @@ var Markers = function(data) {
 
     if(typeof page[pageId].thumbnail !== 'undefined'){
       const pagePhoto = page[pageId].thumbnail.original;
-      html = `<figure class="picture">
+      self.html = `<figure class="picture">
         <img src="${pagePhoto}" alt="${self.title}">
         <figcaption>${self.title}</figcaption>
         </figure>`;
     }
     else{
-      html = `No images available`;
+      self.html = `No images available`;
         console.log(content);
     }
 
@@ -193,7 +133,7 @@ var Markers = function(data) {
     // Function catches errors and puts an error message in infobox infobox
     // if there is an error retrieving data.
     console.log(e);
-    html = 'Error loading image';
+    self.html = 'Error loading image';
   }
 
   /*
@@ -201,7 +141,8 @@ var Markers = function(data) {
   */
   marker.addListener('click', function(){
     //Opens info window when clicked.
-    populateInfoWindow(this, html);
+    map.setCenter(this.getPosition());
+    self.populateInfoWindow(this, self.html);
     var thisMarker = this;
     // Creates bounces Animation when clicked.
     thisMarker.setAnimation(google.maps.Animation.BOUNCE);
@@ -218,7 +159,7 @@ var Markers = function(data) {
   });
 
   // Makes popup info window with content from fetch request.
-  populateInfoWindow = function(marker, htmlContent) {
+  this.populateInfoWindow = function(marker, htmlContent) {
     infowindow = largeInfowindow;
     if(infowindow.maker != marker) {
       infowindow.marker = marker;
@@ -230,7 +171,6 @@ var Markers = function(data) {
       });
     }
   };
-
 };
 
 // Initilizes map.
@@ -240,5 +180,10 @@ var initMap = function() {
     zoom: 13
   });
   //Applies Knockout bindings.
-  ko.applyBindings(new viewModel());
+  ko.applyBindings(new ViewModel());
+};
+
+//Handles error for when Google maps fails to load.
+var googleError = function() {
+  alert('Could not connect to Google maps');
 };
