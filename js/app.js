@@ -115,8 +115,8 @@ var Markers = function(data) {
     const page = content.query.pages;
     const pageId = Object.keys(content.query.pages)[0];
 
-    if(typeof page[pageId].thumbnail !== 'undefined'){
-      const pagePhoto = page[pageId].thumbnail.original;
+    if(typeof page[pageId].original.source !== 'undefined'){
+      const pagePhoto = page[pageId].original.source;
       self.html = `<figure class="picture">
         <img src="${pagePhoto}" alt="${self.title}">
         <figcaption>${self.title}</figcaption>
